@@ -33,9 +33,11 @@ altgr keycode 50 = guillemotright
 
 altgr keycode 113 = dollar
 
-# Berry key sends Control + this code
+# Press power key sends Control + this code
 # Use it for Tmux prefix
 control keycode 171 = Control_b
+# Short hold power key sends Tmux prefix + this key 
+control keycode 174 = e
 
 # Meta Q / A move between words
 keycode 172 = F172
@@ -62,7 +64,7 @@ keycode 138 = three
 keycode 139 = parenleft
 keycode 140 = parenright
 keycode 141 = underscore
-keycode 200 = minus
+keycode 142 = minus
 keycode 143 = plus
 keycode 144 = at
 

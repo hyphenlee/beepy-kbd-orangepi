@@ -4,6 +4,7 @@
  * main.c: Main C File.
  */
 
+#include <linux/version.h>
 #include <linux/init.h>
 #include <linux/module.h>
 #include <linux/i2c.h>
@@ -23,7 +24,12 @@
 #error "Only supporting BBQ20 keyboard right now"
 #endif
 
-static int beepy_kbd_probe(struct i2c_client* i2c_client, struct i2c_device_id const* i2c_id)
+static int beepy_kbd_probe
+#if LINUX_VERSION_CODE < KERNEL_VERSION(6, 6, 0)
+(struct i2c_client* i2c_client, struct i2c_device_id const* i2c_id)
+#else
+(struct i2c_client* i2c_client)
+#endif
 {
 	int rc;
 
@@ -38,7 +44,7 @@ static int beepy_kbd_probe(struct i2c_client* i2c_client, struct i2c_device_id c
 	}
 
 	// Initialize sysfs interface
-	if ((rc = sysfs_probe())) {
+	if ((rc = sysfs_probe(i2c_client))) {
 		return rc;
 	}
 
@@ -47,7 +53,7 @@ static int beepy_kbd_probe(struct i2c_client* i2c_client, struct i2c_device_id c
 
 static void beepy_kbd_shutdown(struct i2c_client* i2c_client)
 {
-	sysfs_shutdown();
+	sysfs_shutdown(i2c_client);
 	params_shutdown();
 	input_shutdown(i2c_client);
 }
@@ -97,7 +103,7 @@ static int __init beepy_kbd_init(void)
 			__func__, rc);
 		return rc;
 	}
-	pr_info("%s Initalised beepy-kbd.\n", __func__);
+	pr_info("%s Initalised beepy-kbd .\n", __func__);
 
 	return rc;
 }
@@ -113,5 +119,5 @@ module_exit(beepy_kbd_exit);
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("wallComputer and Andrew D'Angelo <dangeloandrew@outlook.com>");
-MODULE_DESCRIPTION("BB Classic keyboard driver for Beepberry");
-MODULE_VERSION("2.2");
+MODULE_DESCRIPTION("BB Classic keyboard driver for Beepy");
+MODULE_VERSION("2.11");
