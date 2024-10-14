@@ -1,5 +1,5 @@
-# beepy keyboard driver for orangepi 
-
+# keyboard driver for orangepi 
+support Beepy,ColorBerry with monochrome Sharp screen or 8 color JDI screen.  
 fork from https://github.com/ardangelo/beepberry-keyboard-driver.git
 
 # install
